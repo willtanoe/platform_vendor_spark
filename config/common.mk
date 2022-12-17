@@ -1,8 +1,7 @@
 # Allow vendor/extras to override any property by setting it first
+$(call inherit-product, vendor/spark/config/audio.mk)
 $(call inherit-product-if-exists, vendor/extras/product.mk)
 $(call inherit-product, vendor/spark/config/bootanimation.mk)
-$(call inherit-product, vendor/spark/audio/AudioPackage.mk)
-
 PRODUCT_BRAND ?= Spark
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
@@ -112,6 +111,12 @@ PRODUCT_PRODUCT_PROPERTIES += \
     ro.com.google.ime.kb_pad_land_l=64 \
     ro.com.google.ime.kb_pad_land_r=64
 
+# Include AOSP audio files
+#include vendor/spark/config/aosp_audio.mk
+
+# Include spark audio files
+#include vendor/spark/config/spark_audio.mk
+
 # Do not include art debug targets
 PRODUCT_ART_TARGET_INCLUDE_DEBUG_BUILD := false
 
@@ -159,7 +164,8 @@ PRODUCT_PACKAGES += \
 # Dex preopt
 PRODUCT_DEXPREOPT_SPEED_APPS += \
     SystemUI \
-    Settings
+    Settings \
+    Launcher3QuickStep
 
 # Settings Intelligence
 PRODUCT_PACKAGES += \
